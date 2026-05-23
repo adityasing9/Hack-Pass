@@ -73,9 +73,9 @@ function RegisterContent() {
         if (signInError) throw signInError;
 
         triggerConfetti();
+        // Full page navigation to ensure cookies are sent to middleware
         setTimeout(() => {
-          router.push('/admin/dashboard');
-          router.refresh();
+          window.location.href = '/admin/dashboard';
         }, 1500);
       } else {
         // Student flow: server action creates auth user + student profile
@@ -102,9 +102,9 @@ function RegisterContent() {
         if (signInError) throw signInError;
 
         triggerConfetti();
+        // Full page navigation to ensure cookies are sent to middleware
         setTimeout(() => {
-          router.push('/student/home');
-          router.refresh();
+          window.location.href = '/student/home';
         }, 1500);
       }
     } catch (err: any) {
