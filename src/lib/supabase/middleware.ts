@@ -33,7 +33,6 @@ export async function updateSession(request: NextRequest) {
   // Refresh session if needed
   const { data: { user } } = await supabase.auth.getUser();
 
-  // If user is accessing student or admin routes and is not logged in, redirect to login
   const reqUrl = request.nextUrl.clone();
   
   if (!user && (reqUrl.pathname.startsWith('/student') || reqUrl.pathname.startsWith('/admin') || reqUrl.pathname === '/scanner')) {
@@ -43,30 +42,23 @@ export async function updateSession(request: NextRequest) {
 
   // Check role permissions if logged in
   if (user) {
-    // If user is logged in and trying to access auth pages, redirect to dashboard
+    const { data: admin } = await supabase.from('admins').select('id').eq('id', user.id).maybeSingle();
+    const { data: student } = await supabase.from('students').select('id').eq('id', user.id).maybeSingle();
+
+    // If user is logged in and trying to access auth pages
     if (reqUrl.pathname.startsWith('/auth/')) {
-      const { data: admin } = await supabase
-        .from('admins')
-        .select('id')
-        .eq('id', user.id)
-        .single();
-        
       if (admin) {
         reqUrl.pathname = '/admin/dashboard';
-      } else {
+        return NextResponse.redirect(reqUrl);
+      } else if (student) {
         reqUrl.pathname = '/student/home';
+        return NextResponse.redirect(reqUrl);
       }
-      return NextResponse.redirect(reqUrl);
+      // If neither admin nor student, allow them to stay on auth pages to complete registration
     }
 
     // Protect Admin routes
     if (reqUrl.pathname.startsWith('/admin') || reqUrl.pathname === '/scanner') {
-      const { data: admin } = await supabase
-        .from('admins')
-        .select('id')
-        .eq('id', user.id)
-        .single();
-
       if (!admin) {
         reqUrl.pathname = '/student/home';
         return NextResponse.redirect(reqUrl);
@@ -75,18 +67,6 @@ export async function updateSession(request: NextRequest) {
 
     // Protect Student routes
     if (reqUrl.pathname.startsWith('/student')) {
-      const { data: student } = await supabase
-        .from('students')
-        .select('id')
-        .eq('id', user.id)
-        .single();
-
-      const { data: admin } = await supabase
-        .from('admins')
-        .select('id')
-        .eq('id', user.id)
-        .single();
-
       if (!student && !admin) {
         reqUrl.pathname = '/auth/register';
         return NextResponse.redirect(reqUrl);
