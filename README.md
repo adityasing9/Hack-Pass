@@ -1,44 +1,79 @@
-# HackPass - Event Registration & QR Attendance PWA
+# HackPass
 
-HackPass is a premium, production-ready college event attendance, QR tracking, and ticket system. It includes both Student and Admin portals and is designed to run as a Progressive Web App (PWA).
+HackPass is a complete production-ready Progressive Web App (PWA) designed for college event attendance, QR tracking, and Google Wallet integration. It provides a premium, mobile-first experience for both students and event administrators.
 
 ## Features
-- **Student Portal**: View events, generate QR tickets, and save tickets to Google Wallet.
-- **Admin Dashboard**: Manage events, students, attendance, and analytics.
-- **Gatekeeper Scanner**: Fast QR code scanner with visual and audio feedback.
-- **PWA Ready**: Can be installed on mobile devices for native-like experience.
 
-## Deployment Guide
+*   **Student Portal:**
+    *   Browse upcoming college events.
+    *   Register for events and generate unique QR code tickets.
+    *   Add event tickets directly to Google Wallet.
+    *   View past attendance and certificates.
+*   **Admin Dashboard:**
+    *   Create and manage college events.
+    *   Built-in QR scanner for rapid check-ins.
+    *   Real-time attendance tracking and analytics.
+    *   Manage student registrations.
+*   **Premium Design:**
+    *   Modern glassmorphism UI with a custom color palette (Brown, Black, Red, Yellow on a Light Background).
+    *   Smooth micro-animations and responsive layouts.
+*   **PWA Capabilities:**
+    *   Installable on iOS and Android devices.
+    *   Offline caching via service workers.
+*   **Secure:**
+    *   Powered by Supabase Authentication and Row Level Security (RLS).
+    *   Role-based access control (Student vs. Admin).
 
-### 1. Supabase Setup
-- Create a new project on [Supabase](https://supabase.com).
-- Go to the SQL Editor and run the SQL script found in `supabase/migrations/20260524000000_schema.sql` to initialize the database schema, RLS policies, and triggers.
-- Under Authentication > Providers, ensure Email authentication is enabled.
+## Tech Stack
 
-### 2. Environment Variables
-You need to set the following environment variables in your deployment environment (e.g., Vercel):
-- `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL.
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase public anonymous key.
+*   **Frontend:** Next.js (App Router), React, TypeScript, TailwindCSS
+*   **Backend:** Next.js Server Actions & API Routes
+*   **Database:** Supabase (PostgreSQL)
+*   **Authentication:** Supabase Auth
+*   **Deployment:** Vercel
 
-### 3. Deploying to Vercel
-1. Push this repository to GitHub, GitLab, or Bitbucket.
-2. Go to [Vercel](https://vercel.com/new) and import your repository.
-3. Configure your Environment Variables in the Vercel dashboard.
-4. Click **Deploy**. Vercel will automatically detect Next.js and build the project using the default settings (`npm run build`).
+## Local Development
 
-### 4. Setting up PWA
-Once deployed, open your app in Safari (iOS) or Chrome (Android) and select "Add to Home Screen" to install it as a PWA.
+### Prerequisites
 
-## Development
+*   Node.js 18+
+*   npm or yarn
+*   A Supabase project
 
-First, install dependencies:
-```bash
-npm install
-```
+### Setup
 
-Then, run the development server:
-```bash
-npm run dev
-```
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/hackpass.git
+    cd hackpass
+    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Configure Environment Variables:**
+    Copy the `.env.example` file to `.env.local` and fill in your Supabase credentials:
+    ```bash
+    cp .env.example .env.local
+    ```
+    *Required variables:*
+    *   `NEXT_PUBLIC_SUPABASE_URL`
+    *   `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+    *   `SUPABASE_SERVICE_ROLE_KEY`
+    *   `ADMIN_REGISTRATION_CODE` (Used to authorize new admin accounts)
+
+4.  **Run Database Migrations:**
+    Execute the SQL schema found in `supabase/migrations/20260524000000_schema.sql` in your Supabase project's SQL editor to create the necessary tables and RLS policies.
+
+5.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
+
+6.  Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Deployment
+
+Please refer to the [DEPLOYMENT.md](./DEPLOYMENT.md) guide for instructions on deploying HackPass to Vercel and configuring the production environment.
