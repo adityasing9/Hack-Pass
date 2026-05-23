@@ -1,5 +1,7 @@
 # HackPass
 
+**Live Demo:** [https://ticketm-alpha.vercel.app](https://ticketm-alpha.vercel.app)
+
 HackPass is a complete production-ready Progressive Web App (PWA) designed for college event attendance, QR tracking, and Google Wallet integration. It provides a premium, mobile-first experience for both students and event administrators.
 
 ## Features
