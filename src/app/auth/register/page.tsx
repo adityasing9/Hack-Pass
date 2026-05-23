@@ -4,7 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { registerAdminAction } from '@/app/actions/auth';
+import { registerAdminAction, registerStudentAction } from '@/app/actions/auth';
 import { UserPlus, Sparkles, Shield, User, Award, Phone, Hash } from 'lucide-react';
 import canvasConfetti from 'canvas-confetti';
 
@@ -51,62 +51,57 @@ function RegisterContent() {
     setLoading(true);
 
     try {
-      // 1. Sign up user in Supabase Auth
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-
-      if (authError) throw authError;
-      if (!authData.user) throw new Error('User creation failed.');
-
-      const userId = authData.user.id;
-
       if (isAdmin) {
-        // 2a. Admin Registration flow: verify code & insert profile via server action
+        // Admin flow: server action creates auth user + admin profile
         const response = await registerAdminAction({
-          userId,
           name,
           email,
+          password,
           adminCode,
         });
 
         if (!response.success) {
-          // If profile enrollment fails, we should sign them out
-          await supabase.auth.signOut();
-          throw new Error(response.error || 'Failed to enroll administrator credentials.');
+          throw new Error(response.error || 'Failed to create admin account.');
         }
 
+        // Now sign in on the client (user is already auto-confirmed by server)
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (signInError) throw signInError;
+
         triggerConfetti();
-        // Redirect to admin dashboard
         setTimeout(() => {
           router.push('/admin/dashboard');
           router.refresh();
         }, 1500);
       } else {
-        // 2b. Student Registration: insert directly via client
-        const { error: profileError } = await supabase
-          .from('students')
-          .insert([
-            {
-              id: userId,
-              usn: usn.toUpperCase().trim(),
-              name,
-              email,
-              dept,
-              year: Number(year),
-              phone,
-            },
-          ]);
+        // Student flow: server action creates auth user + student profile
+        const response = await registerStudentAction({
+          name,
+          email,
+          password,
+          usn,
+          dept,
+          year: Number(year),
+          phone,
+        });
 
-        if (profileError) {
-          // If inserting the profile fails, sign out user
-          await supabase.auth.signOut();
-          throw profileError;
+        if (!response.success) {
+          throw new Error(response.error || 'Failed to create student account.');
         }
 
+        // Now sign in on the client
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (signInError) throw signInError;
+
         triggerConfetti();
-        // Redirect to student portal
         setTimeout(() => {
           router.push('/student/home');
           router.refresh();
