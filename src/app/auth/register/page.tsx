@@ -64,7 +64,7 @@ function RegisterContent() {
           throw new Error(response.error || 'Failed to create admin account.');
         }
 
-        // Now sign in on the client (user is already auto-confirmed by server)
+        // Now sign in on the client
         const { error: signInError } = await supabase.auth.signInWithPassword({
           email,
           password,
@@ -72,11 +72,8 @@ function RegisterContent() {
 
         if (signInError) throw signInError;
 
-        triggerConfetti();
-        // Full page navigation to ensure cookies are sent to middleware
-        setTimeout(() => {
-          window.location.href = '/admin/dashboard';
-        }, 1500);
+        // Force immediate redirect without timeout or confetti to prevent any UI thread hangs
+        window.location.replace('/admin/dashboard');
       } else {
         // Student flow: server action creates auth user + student profile
         const response = await registerStudentAction({
@@ -101,11 +98,8 @@ function RegisterContent() {
 
         if (signInError) throw signInError;
 
-        triggerConfetti();
-        // Full page navigation to ensure cookies are sent to middleware
-        setTimeout(() => {
-          window.location.href = '/student/home';
-        }, 1500);
+        // Force immediate redirect
+        window.location.replace('/student/home');
       }
     } catch (err: any) {
       setError(err.message || 'Registration failed. Please check inputs.');
