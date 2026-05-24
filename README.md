@@ -76,6 +76,3 @@ HackPass is a complete production-ready Progressive Web App (PWA) designed for c
 
 6.  Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Deployment
-
-Please refer to the [DEPLOYMENT.md](./DEPLOYMENT.md) guide for instructions on deploying HackPass to Vercel and configuring the production environment.
