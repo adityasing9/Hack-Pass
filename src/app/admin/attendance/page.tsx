@@ -157,7 +157,7 @@ export default function AdminAttendancePage() {
           .eq('event_id', manualEventId)
           .not('exit_time', 'is', null);
 
-        const totalMinutes = completedSessions?.reduce((acc, curr) => acc + (curr.duration_minutes || 0), 0) || 0;
+        const totalMinutes = completedSessions?.reduce((acc: number, curr: any) => acc + (curr.duration_minutes || 0), 0) || 0;
 
         // Fetch event duration
         const { data: event } = await supabase

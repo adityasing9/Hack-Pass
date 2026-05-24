@@ -27,11 +27,11 @@ export default function AdminAnalyticsPage() {
           .select('*', { count: 'exact', head: true });
 
         const totalSums = summaries?.length || 0;
-        const passedSums = summaries?.filter(s => s.status === 'PRESENT' || s.status === 'INSIDE').length || 0;
+        const passedSums = summaries?.filter((s: any) => s.status === 'PRESENT' || s.status === 'INSIDE').length || 0;
 
         let totalPercent = 0;
         if (summaries && totalSums > 0) {
-          totalPercent = summaries.reduce((acc, curr) => acc + Number(curr.attendance_percent), 0) / totalSums;
+          totalPercent = summaries.reduce((acc: number, curr: any) => acc + Number(curr.attendance_percent), 0) / totalSums;
         }
 
         setAnalytics({

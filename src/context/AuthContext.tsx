@@ -101,17 +101,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     initializeAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event: any, session: any) => {
         if (mounted) {
           if (session?.user) {
             setUser(session.user);
-            await fetchProfile(session.user);
+            fetchProfile(session.user).finally(() => {
+              if (mounted) setLoading(false);
+            });
           } else {
             setUser(null);
             setStudent(null);
             setAdmin(null);
+            setLoading(false);
           }
-          setLoading(false);
         }
       }
     );

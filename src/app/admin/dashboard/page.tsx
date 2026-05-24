@@ -30,12 +30,12 @@ export default function AdminDashboardPage() {
         .select('*');
 
       const totalSummaries = summaries?.length || 0;
-      const presentCount = summaries?.filter(s => s.status === 'PRESENT' || s.status === 'INSIDE').length || 0;
-      const insideCount = summaries?.filter(s => s.status === 'INSIDE').length || 0;
+      const presentCount = summaries?.filter((s: any) => s.status === 'PRESENT' || s.status === 'INSIDE').length || 0;
+      const insideCount = summaries?.filter((s: any) => s.status === 'INSIDE').length || 0;
 
       let totalPercent = 0;
       if (summaries && totalSummaries > 0) {
-        totalPercent = summaries.reduce((acc, curr) => acc + Number(curr.attendance_percent), 0) / totalSummaries;
+        totalPercent = summaries.reduce((acc: number, curr: any) => acc + Number(curr.attendance_percent), 0) / totalSummaries;
       }
 
       setStats({
