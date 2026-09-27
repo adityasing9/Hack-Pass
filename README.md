@@ -1,9 +1,28 @@
 # HackPass
 
-**Live Demo:** [Click me 🐇](https://e-hackpass.vercel.app)
+<div align="center">
+
+# 🎫 HackPass
+
+### Smart College Event Attendance & QR Management
+
+A modern, mobile-first PWA for **event registration, QR-based attendance, digital tickets, and Google Wallet inaa smoother college event experience.
+
+[![Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-e--hackpass.vercel.app-000000?style=for-the-badge)](https://e-hackpass.vercel.app)
+
+</div>
 
 HackPass is a complete production-ready Progressive Web App (PWA) designed for college event attendance, QR tracking, and Google Wallet integration. It provides a premium, mobile-first experience for both students and event administrators.
 
+## ✨ Highlights
+
+- 🎟️ **Digital Event Tickets** — Generate unique QR-based tickets for registered students.
+- 📱 **Mobile First** — Designed for a smooth experience on phones and tablets.
+- 📲 **Google Wallet** — Save event tickets directly to Google Wallet.
+- ⚡ **Real-Time Attendance** — Track event check-ins as they happen.
+- 🔐 **Role-Based Access** — Separate experiences for students and administrators.
+
+  
 ## Features
 
 *   **Student Portal:**
