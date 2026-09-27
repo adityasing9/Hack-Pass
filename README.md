@@ -6,7 +6,7 @@
 
 ### Smart College Event Attendance & QR Management
 
-A modern, mobile-first PWA for **event registration, QR-based attendance, digital tickets, and Google Wallet integration.**
+A modern, mobile-first PWA for **event registration, QR-based attendance, digital tickets, and Google Wallet integration** — built for a smoother college event experience.
 
 [![Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-e--hackpass.vercel.app-000000?style=for-the-badge)](https://e-hackpass.vercel.app)
 
