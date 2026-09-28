@@ -300,6 +300,56 @@ export default function DigitalPassPage() {
           </div>
         </div>
 
+        {/* Google Wallet 1-Tap Photo Import Box */}
+        <div className="mt-5 rounded-2xl bg-white/5 border border-white/10 p-5 space-y-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-black flex items-center justify-center border border-white/10">
+              <Smartphone className="w-4 h-4 text-brand-yellow" />
+            </div>
+            <div>
+              <h3 className="text-xs font-bold text-white uppercase tracking-wider">Add to Google Wallet</h3>
+              <p className="text-[11px] text-white/50">Save directly to your phone's Google Wallet app without any account setup.</p>
+            </div>
+          </div>
+
+          <div className="rounded-xl bg-black/40 border border-white/5 p-3.5 space-y-2 text-[11px] text-white/70">
+            <div className="flex items-start gap-2">
+              <span className="w-4 h-4 rounded-full bg-brand-yellow/20 text-brand-yellow flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</span>
+              <span>Tap <strong>Download Ticket QR</strong> below to save it to your phone photos.</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="w-4 h-4 rounded-full bg-brand-yellow/20 text-brand-yellow flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
+              <span>Open the <strong>Google Wallet</strong> app on your Android phone.</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="w-4 h-4 rounded-full bg-brand-yellow/20 text-brand-yellow flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</span>
+              <span>Tap <strong>+ Add to Wallet</strong> &rarr; choose <strong>Everything else</strong> &rarr; select this saved QR image.</span>
+            </div>
+          </div>
+
+          <button
+            onClick={async () => {
+              if (!ticket?.qr_code) return;
+              try {
+                const url = await QRCode.toDataURL(ticket.qr_code, {
+                  margin: 2,
+                  width: 600,
+                  color: { dark: '#111111', light: '#FFFFFF' }
+                });
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `HackPass-${ticket.events?.title || 'Ticket'}-QR.png`;
+                link.click();
+              } catch (e) {
+                console.error(e);
+              }
+            }}
+            className="w-full py-3.5 bg-brand-yellow hover:bg-brand-yellow/90 active:scale-[0.98] text-brand-black font-extrabold text-xs rounded-xl flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer"
+          >
+            <Download className="w-4 h-4" /> Download Ticket QR for Google Wallet
+          </button>
+        </div>
+
         {/* Footer branding */}
         <div className="text-center mt-6 pb-8">
           <p className="text-[10px] font-bold text-white/15 uppercase tracking-widest">
