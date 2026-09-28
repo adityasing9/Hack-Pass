@@ -50,12 +50,12 @@ export async function POST(request: NextRequest) {
 
     // Check if Google credentials are configured
     if (!issuerId || !clientEmail || !privateKey) {
-      // Fallback: If not configured, we return a simulated Wallet Pass preview URL
-      // which demonstrates the integration.
-      const fallbackUrl = `/student/tickets?demo=wallet&ticket=${ticketId}`;
+      // Fallback: Return the in-app digital pass URL
+      const fallbackUrl = `/student/tickets/${ticketId}/pass`;
       return NextResponse.json({
         url: fallbackUrl,
-        message: 'Google Wallet API credentials not configured in environment. Displaying local digital pass preview.',
+        type: 'in-app',
+        message: 'Opening HackPass Digital Pass. Configure Google Wallet API credentials for native wallet integration.',
       });
     }
 

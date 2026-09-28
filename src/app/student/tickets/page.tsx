@@ -119,9 +119,14 @@ export default function StudentTicketsPage() {
       const result = await response.json();
       
       if (result.url) {
-        setWalletUrl(prev => ({ ...prev, [ticket.id]: result.url }));
-        // Open Google Wallet url
-        window.open(result.url, '_blank');
+        if (result.type === 'in-app') {
+          // Navigate to the in-app digital pass page
+          window.location.href = result.url;
+        } else {
+          // Open Google Wallet save URL in new tab
+          setWalletUrl(prev => ({ ...prev, [ticket.id]: result.url }));
+          window.open(result.url, '_blank');
+        }
       }
     } catch (err) {
       console.error('Wallet addition failure:', err);
